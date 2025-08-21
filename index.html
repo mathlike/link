@@ -105,6 +105,7 @@
     
     // Upewnij się, że ten URL jest poprawny!
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9X0kjV56EzxI8PFYectXsKPDxhA9IDC6RQy0W-TWMnKzRy4XzHhkfbjudTol2ADGwog/exec';
+    let URL = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(SCRIPT_URL) + '&disableCache=true';
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -115,12 +116,12 @@
         submitButton.disabled = true;
 
         try {
-            const response = await fetch(SCRIPT_URL, {
+            const response = await fetch(URL, {
               method: 'POST',
               headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // <= ważne
               body: JSON.stringify({ url: longUrl }),
             });
-            const data = await response.json();
+            const data = await response.text();
             console.log('Odpowiedź serwera:', data);
 
             if (data.status === 'success') {
